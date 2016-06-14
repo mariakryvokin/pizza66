@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Order</title> 
+    <!-- Bootsrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/less/main.css" />
+    <!-- LESS основний файл -->
+    <link rel="stylesheet/less" type="text/css" href="assets/less/main.less" />
+    <!-- LESS JavaScript компілятор -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/less.js/2.5.3/less.min.js"></script> 
+     
+</head>
+    <body>
+        <div class="contactData  col-md-9">
+            <div> <h3>Контактні дані</h3></div>
+            <div class="row"> 
+                <div class="col-sm-7">
+  <form class=" forma form-horizontal">
+  <div class="form-group">
+    <label for="nameSurname" class="col-sm-2 control-label">Ім*я Прізвище</label>
+    <div class="col-sm-6">
+      <input type="text" class="form-control" id="nameSurname" placeholder="Ім*я Прізвище">
+    </div>
+  </div>
+      
+  <div class="form-group">
+    <label for="telephone" class="col-sm-2 control-label">Телефон</label>
+    <div class="col-sm-6">
+      <input type="text" class="form-control" id="telephone" placeholder="Телефон">
+    </div>
+    <span class="displ">введіть телефон починаючи з (+380) або з 0</span>
+  </div>
+      
+       <div class="form-group">
+    <label for="address" class="col-sm-2 control-label">Адреса</label>
+    <div class="col-sm-6">
+      <input type="text" class="form-control" id="address" placeholder="Адреса">
+    </div>
+           <span class="displ">введіть правильну адресу</span>
+  </div>
+      </div>
+     <div class="bs-callout bs-callout-warning col-md-4">
+            <p><h4><b>Інформація про замовлення</b></h4></p>
+            <p><b>Приблизний час доставки:</b><labe>невідомий</labe></p>
+            <p><b>Адреса доставки:</b><lable class="address">невідома</lable></p>
+        </div>
+     <div  id ="buyall" class="next btn btn-warning ">Далі<span class="glyphicon glyphicon-chevron-right"></span></div>   
+</form>
+    </div>
+        </div>
+    
+    <div class="col-sm-9">
+    <script type="text/javascript"src="http://maps.googleapis.com/maps/api/js?key=AIzaSyADgayqW2nu8OxDuVkEdtVifv9awNC6jjY"></script>
+    <script type="text/javascript">
+
+function initialize()  {
+	var mapProp = {
+		center : new google.maps.LatLng(50.464379, 30.519131),
+		zoom : 11
+	};
+	var html_element = document.getElementById("googleMap");
+	var map = new google.maps.Map(html_element, mapProp);
+	
+
+	var point = new google.maps.LatLng(50.464379, 30.519131);
+	var marker = new google.maps.Marker({
+		position : point,
+		map : map,
+		icon : "assets/images/map-icon.png"
+	});
+	
+	var homeMarker = new google.maps.Marker({
+		position : point,
+		//map : map,
+		//icon : "assets/images/map-icon.png"
+		icon : "assets/images/home-icon.png"
+	});
+
+	function geocodeLatLng(latlng, callback) {
+	    var geocoder = new google.maps.Geocoder();
+	    geocoder.geocode({
+	        'location': latlng
+	    }, function(results, status) {
+	        if (status === google.maps.GeocoderStatus.OK && results[1]) {
+	            var adress = results[1].
+	            formatted_address;
+	            callback(null, adress);
+	        } else {
+	            callback(new Error("Can't find adress "));
+	        }
+	    });
+	}
+
+	function geocodeAddress(address, callback) {
+	    var geocoder = new google.maps.Geocoder();
+	    geocoder.geocode({
+	        'address': address
+	    }, function(results, status) {
+	        if (status === google.maps.GeocoderStatus.OK && results[0]) {
+	            var coordinates = results[0].geometry.location;
+	            callback(null, coordinates);
+	        } else {
+	            callback(new Error("Can not find the adress "));
+	        }
+	    });
+	}
+
+	google.maps.event.addListener(map, 'click',function(me){
+		geocodeLatLng(me.latLng, function(err, adress){
+			if (err){
+	            $(".address-group").addClass("has-error");  
+	            $(".address-group").removeClass("has-success");
+			} else {
+				//var homePoint = new google.maps.LatLng(me.latLng.lat, me.latLng.lng);
+				homeMarker.setMap(map);
+				homeMarker.position = me.latLng;
+				console.log(homeMarker);
+				$('#inputAdress').val(adress);
+				$('#addressFinale').html(adress);
+	            $(".address-group").removeClass("has-error");  
+	            $(".address-group").addClass("has-success");
+			}
+		});
+	});
+
+	$('#inputName').on('input', function() {
+        var r = /^[А-Яа-я]+$/;
+        if (r.test($('#inputName').val())) {
+            $(".name-help-block").hide();  
+            $(".name-group").removeClass("has-error");  
+            $(".name-group").addClass("has-success");  
+        } else {
+            $(".name-help-block").show();
+            $(".name-group").addClass("has-error");
+            $(".name-group").removeClass("has-success");  
+        }
+    });
+
+    $('#inputPhone').on('input', function() {
+        //+380994010999
+        var r = /^(\+38)?0\d{9}$/;
+        if (r.test($('#inputPhone').val())) {
+            $(".phone-help-block").hide();
+            $(".phone-group").removeClass("has-error");  
+            $(".phone-group").addClass("has-success");             
+        } else {
+            $(".phone-help-block").show();
+            $(".phone-group").removeClass("has-error");  
+            $(".phone-group").addClass("has-success"); 
+        }
+    });
+
+    $('#inputAdress').on('input', function() {
+        var a = $('#inputAdress').val();
+        geocodeAddress(a, function(err, latLng){
+        	if (err){
+            	$(".address-help-block").hide();
+	            $(".address-group").addClass("has-error");  
+	            $(".address-group").removeClass("has-success");
+			} else {
+				geocodeLatLng(latLng, function(err, adress){
+					$('#addressFinale').html(adress);
+	            	$(".address-help-block").hide();
+		            $(".address-group").removeClass("has-error");  
+		            $(".address-group").addClass("has-success");
+	        	});
+			}
+        });
+    });
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+
+</script>
+    </div>
+         
+    <!-- jQuery JavaScript -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"> </script>
+
+<!--Bootsrap JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<!--Own JavaScript -->
+<script type="text/javascript"  src="assets/js/main.js"> </script>
+   
+
+    </body>
+</html>

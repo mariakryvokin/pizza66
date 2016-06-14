@@ -1,0 +1,44 @@
+<% include common/header.ejs %>
+<%include common/rightpanel.ejs%>
+   
+<div class="container col-md-9 col-sm-6 col-xs-4">
+        <div class="flip glyphicon glyphicon-bookmark"></div>
+        <div class="botoonPizzakma white"><b>Цього тижня на все</b>
+            <hr class="strangehr"></hr><b>- 20%</b></div>
+        
+        <div class="header col-md-9 col-sm-6 col-xs-4">
+            <span class="glyphicon glyphicon-bookmark"><span><div class="pizzakma white">PIZZA<p>KMA</p></div></span></span><span class="telephone">(044)222 5 222</span><span class="reclamma">24 години/ 7 днів на тиждень</span><span class=" reclamma free">Безкоштовна доставка піци</span><span><button type="button" class="enter btn btn-warning">Ввійти</button></span><hr class="heHeader"><span class="underpizza white">Піца</span>
+        </div>
+        
+        <div class="allpizza">
+        <lable><b>Усі піци</b></lable>
+        <span id="ovalAllpizza" class="oval white">1</span>
+        </div>
+        
+        <div class="filtersPlace">
+            <div class="filters btn filter-all">Усі</div>
+            <div class="filters btn filter-meat">М'ясні</div>
+            <div class="filters btn filter-pineapple">З ананасами</div>
+            <div class="filters btn filter-mushrooms">З грибами</div>
+            <div class="filters btn filter-oceans">З Морепродуктами</div>
+            <div class="filters btn filter-vegan">Вега</div>
+        </div>
+ 
+<hr></hr>
+    <div class="row" id="pizza_list"></div>
+</div>
+    
+  
+
+
+<!-- jQuery JavaScript -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"> </script>
+
+<!--Bootsrap JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<!--Own JavaScript -->
+<script type="text/javascript"  src="assets/js/main.js"> </script>
+
+
+<% include common/footer.ejs %>
